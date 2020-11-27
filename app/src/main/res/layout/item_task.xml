@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:padding="8dp"
+    android:layout_height="wrap_content">
 
     <CheckBox
         android:id="@+id/checkbox_completed"
@@ -22,9 +23,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="@+id/checkbox_completed"
         app:layout_constraintStart_toEndOf="@+id/checkbox_completed"
         app:layout_constraintTop_toTopOf="@+id/checkbox_completed"
         tools:text="This is a great place to learn" />
+
+    <ImageView
+        android:id="@+id/item_task_important_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_priority"
+        app:layout_constraintBottom_toBottomOf="@+id/checkbox_completed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/checkbox_completed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

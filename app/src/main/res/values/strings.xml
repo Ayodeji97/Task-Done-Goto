@@ -3,4 +3,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fab_button_ste">fab button</string>
+    <string name="task_name_str">Task name</string>
+    <string name="important_str">Important</string>
 </resources>
