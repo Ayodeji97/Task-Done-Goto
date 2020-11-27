@@ -1,13 +1,14 @@
-package com.mylearning.todoapp_goto
+package com.mylearning.todoapp_goto.ui.tasks
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mylearning.todoapp_goto.R
 
 
-class Fragment_tasks : Fragment() {
+class TaskFragment : Fragment(R.layout.fragment_tasks) {
 
 
     override fun onCreateView(
