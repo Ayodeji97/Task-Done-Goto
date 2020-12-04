@@ -45,6 +45,4 @@ class TasksAdapter : ListAdapter<Task, TasksAdapter.TasksViewHolder>(DiffCallbac
         override fun areContentsTheSame(oldItem: Task, newItem: Task) = oldItem == newItem
 
     }
-
-
 }
