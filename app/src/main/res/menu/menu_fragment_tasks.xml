@@ -36,7 +36,7 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="action_delete_all_completed_tasks"
+        android:id="@+id/action_delete_all_completed_tasks"
         android:title="Delete all completed"
         app:showAsAction="never"/>
 
