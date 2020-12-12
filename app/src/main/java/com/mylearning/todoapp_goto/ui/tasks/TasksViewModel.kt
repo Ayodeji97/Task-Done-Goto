@@ -11,10 +11,14 @@ class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao)
 
     val searchQuery = MutableStateFlow("")
 
+    val sortOrder = MutableStateFlow(SortOrder.BY_DATE)
+    val hideCompleted = MutableStateFlow(false)
+
     private val tasksFlow = searchQuery.flatMapLatest {
         taskDao.getTasks(it)
     }
     val task = tasksFlow.asLiveData()
 
-
 }
+
+enum class SortOrder {BY_Name, BY_DATE }
