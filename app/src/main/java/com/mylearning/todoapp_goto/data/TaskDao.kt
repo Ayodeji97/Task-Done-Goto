@@ -1,7 +1,6 @@
 package com.mylearning.todoapp_goto.data
 
 import androidx.room.*
-import com.mylearning.todoapp_goto.ui.tasks.SortOrder
 import kotlinx.coroutines.flow.Flow
 
 @Dao
