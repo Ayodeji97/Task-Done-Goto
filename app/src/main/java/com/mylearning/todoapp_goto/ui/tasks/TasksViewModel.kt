@@ -8,9 +8,11 @@ import com.mylearning.todoapp_goto.data.PreferencesManager
 import com.mylearning.todoapp_goto.data.SortOrder
 import com.mylearning.todoapp_goto.data.Task
 import com.mylearning.todoapp_goto.data.TaskDao
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao, private val preferencesManager : PreferencesManager ): ViewModel() {
@@ -18,6 +20,12 @@ class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao,
     val searchQuery = MutableStateFlow("")
 
     val preferenceFlow = preferencesManager.preferencesFlow
+
+    // create an channel to be passed to the fragment
+    private val tasksEventChannel = Channel<TasksEvent>()
+
+    val tasksEvent = tasksEventChannel.receiveAsFlow()
+
 
     private val tasksFlow = combine(searchQuery, preferenceFlow ) { query, filterPrefernces ->
         // lamda func : whenever any of the flow emit a new value, this will be called
@@ -41,6 +49,16 @@ class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao,
 
     fun onTaskCheckedChanged (task: Task, isChecked : Boolean) = viewModelScope.launch {
         taskDao.update(task.copy(completed = isChecked))
+    }
+
+    fun onTaskSwiped (task: Task) = viewModelScope.launch {
+        taskDao.delete(task)
+        tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(task))
+    }
+
+    // sealed to send snack bar response from the viewModel
+    sealed class TasksEvent {
+        data class ShowUndoDeleteTaskMessage (val task: Task) : TasksEvent()
     }
 }
 
