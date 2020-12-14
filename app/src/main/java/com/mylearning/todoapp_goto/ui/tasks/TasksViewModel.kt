@@ -6,6 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.mylearning.todoapp_goto.data.PreferencesManager
 import com.mylearning.todoapp_goto.data.SortOrder
+import com.mylearning.todoapp_goto.data.Task
 import com.mylearning.todoapp_goto.data.TaskDao
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -32,6 +33,14 @@ class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao,
 
     fun onHideCompletedClick (hideCompleted: Boolean) = viewModelScope.launch {
         preferencesManager.updateHideCompleted(hideCompleted)
+    }
+
+    fun onTaskSelected (task : Task ) {
+
+    }
+
+    fun onTaskCheckedChanged (task: Task, isChecked : Boolean) = viewModelScope.launch {
+        taskDao.update(task.copy(completed = isChecked))
     }
 }
 
