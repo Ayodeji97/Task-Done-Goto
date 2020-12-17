@@ -13,7 +13,7 @@
         android:padding="8dp" >
 
         <EditText
-            android:id="@+id/update_add_task_et"
+            android:id="@+id/add_task_name_task_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/task_name_str"
@@ -29,7 +29,7 @@
             android:text="@string/important_str"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/update_add_task_et" />
+            app:layout_constraintTop_toBottomOf="@+id/add_task_name_task_et" />
 
         <TextView
             android:id="@+id/fragment_add_edit_date_created_tv"

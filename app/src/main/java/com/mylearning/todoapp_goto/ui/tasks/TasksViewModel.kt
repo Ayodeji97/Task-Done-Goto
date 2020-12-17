@@ -1,9 +1,8 @@
 package com.mylearning.todoapp_goto.ui.tasks
 
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.mylearning.todoapp_goto.data.PreferencesManager
 import com.mylearning.todoapp_goto.data.SortOrder
 import com.mylearning.todoapp_goto.data.Task
@@ -15,9 +14,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao, private val preferencesManager : PreferencesManager ): ViewModel() {
+class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao, private val preferencesManager : PreferencesManager,  @Assisted private val state: SavedStateHandle): ViewModel() {
 
-    val searchQuery = MutableStateFlow("")
+    //val searchQuery = MutableStateFlow("")
+    val searchQuery = state.getLiveData("searchQuery", "")
 
     val preferenceFlow = preferencesManager.preferencesFlow
 
@@ -27,7 +27,7 @@ class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao,
     val tasksEvent = tasksEventChannel.receiveAsFlow()
 
 
-    private val tasksFlow = combine(searchQuery, preferenceFlow ) { query, filterPrefernces ->
+    private val tasksFlow = combine(searchQuery.asFlow(), preferenceFlow ) { query, filterPrefernces ->
         // lamda func : whenever any of the flow emit a new value, this will be called
         Pair(query, filterPrefernces)
     }.flatMapLatest { (query, filterPreferences) ->
@@ -54,6 +54,10 @@ class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao,
     fun onTaskSwiped (task: Task) = viewModelScope.launch {
         taskDao.delete(task)
         tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(task))
+    }
+
+    fun onUndoDeleteClick (task: Task) = viewModelScope.launch {
+        taskDao.insert(task)
     }
 
     // sealed to send snack bar response from the viewModel
