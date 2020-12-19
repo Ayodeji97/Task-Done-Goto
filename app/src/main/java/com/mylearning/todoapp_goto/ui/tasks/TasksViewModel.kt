@@ -43,8 +43,8 @@ class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao,
         preferencesManager.updateHideCompleted(hideCompleted)
     }
 
-    fun onTaskSelected (task : Task ) {
-
+    fun onTaskSelected (task : Task ) = viewModelScope.launch{
+        tasksEventChannel.send(TasksEvent.NavigateToEditTaskScreen(task))
     }
 
     fun onTaskCheckedChanged (task: Task, isChecked : Boolean) = viewModelScope.launch {
@@ -60,9 +60,17 @@ class TasksViewModel @ViewModelInject constructor (private val taskDao: TaskDao,
         taskDao.insert(task)
     }
 
+    fun onAddNewTaskClick () = viewModelScope.launch{
+        tasksEventChannel.send(TasksEvent.NavigateToAddTaskScreen)
+    }
+
     // sealed to send snack bar response from the viewModel
     sealed class TasksEvent {
+        object NavigateToAddTaskScreen : TasksEvent()
+        data class NavigateToEditTaskScreen(val task: Task) : TasksEvent()
         data class ShowUndoDeleteTaskMessage (val task: Task) : TasksEvent()
     }
+
+
 }
 

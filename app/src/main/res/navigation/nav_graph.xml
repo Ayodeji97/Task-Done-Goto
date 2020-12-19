@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/taskFragment"
         android:name="com.mylearning.todoapp_goto.ui.tasks.TasksFragment"
-        android:label="fragment_tasks"
+        android:label="Tasks"
         tools:layout="@layout/fragment_tasks" >
         <action
             android:id="@+id/action_taskFragment_to_addEditTaskFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/addEditTaskFragment"
         android:name="com.mylearning.todoapp_goto.ui.addedittask.AddEditTaskFragment"
-        android:label="AddEditTaskFragment"
+        android:label="{title}"
         tools:layout="@layout/fragment_add_edit_task"
         >
         <argument
@@ -25,5 +25,8 @@
             app:argType="com.mylearning.todoapp_goto.data.Task"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 </navigation>
